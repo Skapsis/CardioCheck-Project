@@ -126,6 +126,7 @@ function App() {
     // PASO 2: NORMALIZACIÓN (StandardScaler)
     // Formula: normalized = (value - mean) / scale
     // ========================================================================
+    const normalizedFeatures = {};
     for (const [key, value] of Object.entries(features)) {
       if (modelParams.scaler_scale[key] !== undefined) {
         const mean = modelParams.scaler_mean[key];
