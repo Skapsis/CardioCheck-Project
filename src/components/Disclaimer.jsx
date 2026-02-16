@@ -51,18 +51,36 @@ const Disclaimer = ({ onAccept }) => {
           </div>
           
           <div className="bg-blue-50 border-l-4 border-clinical-blue p-4 rounded">
-            <p className="font-semibold mb-2">✓ Recomendaciones:</p>
+            <p className="font-semibold mb-2">🧠 Tecnología utilizada:</p>
             <ul className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
                 <span className="text-clinical-blue mt-1">•</span>
+                <span>Modelo de <strong>Regresión Logística</strong> entrenado con Python/scikit-learn</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-clinical-blue mt-1">•</span>
+                <span>Dataset: <strong>UCI Heart Disease</strong> (Cleveland Foundation)</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="text-clinical-blue mt-1">•</span>
+                <span>Normalización con <strong>StandardScaler</strong> para precisión</span>
+              </li>
+            </ul>
+          </div>
+          
+          <div className="bg-green-50 border-l-4 border-soft-green p-4 rounded">
+            <p className="font-semibold mb-2">✓ Recomendaciones:</p>
+            <ul className="space-y-2 text-sm">
+              <li className="flex items-start gap-2">
+                <span className="text-soft-green mt-1">•</span>
                 <span>Consulta siempre con un <strong>médico cardiólogo certificado</strong></span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-clinical-blue mt-1">•</span>
+                <span className="text-soft-green mt-1">•</span>
                 <span>Realiza <strong>chequeos médicos regulares</strong></span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-clinical-blue mt-1">•</span>
+                <span className="text-soft-green mt-1">•</span>
                 <span>Ante cualquier síntoma, busca <strong>atención médica inmediata</strong></span>
               </li>
             </ul>

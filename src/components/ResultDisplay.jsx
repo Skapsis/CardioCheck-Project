@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, TrendingUp, TrendingDown, AlertCircle, CheckCircle, Minus } from 'lucide-react';
+import { Heart, TrendingUp, TrendingDown, AlertCircle, CheckCircle, Minus, Activity, Target, Zap, Award, BarChart3, Brain } from 'lucide-react';
 
 const ResultDisplay = ({ result, onReset }) => {
   const { percentage, level, message, recommendations } = result;
@@ -151,6 +151,183 @@ const ResultDisplay = ({ result, onReset }) => {
           </div>
         </div>
       </div>
+      
+      {/* Dashboard de Métricas del Modelo - DISEÑO PREMIUM */}
+      {result.modelInfo && result.modelInfo.metrics && (
+        <div className="card p-6 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 border-2 border-clinical-blue border-opacity-20">
+          {/* Header del Dashboard */}
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-3 bg-gradient-to-br from-clinical-blue to-blue-600 rounded-xl shadow-lg">
+              <Brain className="w-7 h-7 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="text-xl font-bold text-gray-800">Dashboard del Modelo</h3>
+              <p className="text-sm text-gray-600">Métricas de rendimiento del algoritmo de Machine Learning</p>
+            </div>
+            <div className="hidden sm:block px-4 py-2 bg-white rounded-lg shadow-sm border border-gray-200">
+              <p className="text-xs text-gray-500">Algoritmo</p>
+              <p className="text-sm font-bold text-clinical-blue">{result.modelInfo.algorithm}</p>
+            </div>
+          </div>
+
+          {/* Grid de Stat Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+            {/* Accuracy Card */}
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl p-4 shadow-lg text-white transform hover:scale-105 transition-transform">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+                  <CheckCircle className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium bg-white bg-opacity-20 px-2 py-1 rounded-full">Principal</span>
+              </div>
+              <p className="text-xs font-medium opacity-90 mb-1">Accuracy</p>
+              <p className="text-3xl font-bold mb-2">{(result.modelInfo.metrics.accuracy * 100).toFixed(1)}%</p>
+              <div className="w-full bg-white bg-opacity-20 rounded-full h-1.5">
+                <div 
+                  className="bg-white h-1.5 rounded-full transition-all duration-1000" 
+                  style={{ width: `${result.modelInfo.metrics.accuracy * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Precision Card */}
+            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-4 shadow-lg text-white transform hover:scale-105 transition-transform">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+                  <Target className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium bg-white bg-opacity-20 px-2 py-1 rounded-full">Precisión</span>
+              </div>
+              <p className="text-xs font-medium opacity-90 mb-1">Precision</p>
+              <p className="text-3xl font-bold mb-2">{(result.modelInfo.metrics.precision * 100).toFixed(1)}%</p>
+              <div className="w-full bg-white bg-opacity-20 rounded-full h-1.5">
+                <div 
+                  className="bg-white h-1.5 rounded-full transition-all duration-1000" 
+                  style={{ width: `${result.modelInfo.metrics.precision * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Recall Card */}
+            <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl p-4 shadow-lg text-white transform hover:scale-105 transition-transform">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+                  <Activity className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium bg-white bg-opacity-20 px-2 py-1 rounded-full">Sensibilidad</span>
+              </div>
+              <p className="text-xs font-medium opacity-90 mb-1">Recall</p>
+              <p className="text-3xl font-bold mb-2">{(result.modelInfo.metrics.recall * 100).toFixed(1)}%</p>
+              <div className="w-full bg-white bg-opacity-20 rounded-full h-1.5">
+                <div 
+                  className="bg-white h-1.5 rounded-full transition-all duration-1000" 
+                  style={{ width: `${result.modelInfo.metrics.recall * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* F1-Score Card */}
+            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl p-4 shadow-lg text-white transform hover:scale-105 transition-transform">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+                  <Award className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium bg-white bg-opacity-20 px-2 py-1 rounded-full">Balance</span>
+              </div>
+              <p className="text-xs font-medium opacity-90 mb-1">F1-Score</p>
+              <p className="text-3xl font-bold mb-2">{(result.modelInfo.metrics.f1Score * 100).toFixed(1)}%</p>
+              <div className="w-full bg-white bg-opacity-20 rounded-full h-1.5">
+                <div 
+                  className="bg-white h-1.5 rounded-full transition-all duration-1000" 
+                  style={{ width: `${result.modelInfo.metrics.f1Score * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* AUC Card */}
+            <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-xl p-4 shadow-lg text-white transform hover:scale-105 transition-transform">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+                  <BarChart3 className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium bg-white bg-opacity-20 px-2 py-1 rounded-full">ROC</span>
+              </div>
+              <p className="text-xs font-medium opacity-90 mb-1">AUC-ROC</p>
+              <p className="text-3xl font-bold mb-2">{(result.modelInfo.metrics.auc * 100).toFixed(1)}%</p>
+              <div className="w-full bg-white bg-opacity-20 rounded-full h-1.5">
+                <div 
+                  className="bg-white h-1.5 rounded-full transition-all duration-1000" 
+                  style={{ width: `${result.modelInfo.metrics.auc * 100}%` }}
+                ></div>
+              </div>
+            </div>
+
+            {/* Cross-Validation Card */}
+            <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-xl p-4 shadow-lg text-white transform hover:scale-105 transition-transform">
+              <div className="flex items-center justify-between mb-3">
+                <div className="p-2 bg-white bg-opacity-20 rounded-lg">
+                  <Zap className="w-5 h-5" />
+                </div>
+                <span className="text-xs font-medium bg-white bg-opacity-20 px-2 py-1 rounded-full">5-Fold</span>
+              </div>
+              <p className="text-xs font-medium opacity-90 mb-1">CV Score</p>
+              <p className="text-3xl font-bold mb-2">{(result.modelInfo.metrics.cvScore * 100).toFixed(1)}%</p>
+              <div className="w-full bg-white bg-opacity-20 rounded-full h-1.5">
+                <div 
+                  className="bg-white h-1.5 rounded-full transition-all duration-1000" 
+                  style={{ width: `${result.modelInfo.metrics.cvScore * 100}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Predicción Actual */}
+          <div className="bg-white rounded-xl p-4 shadow-sm border-2 border-gray-200">
+            <div className="flex items-center gap-3">
+              <div className={`p-3 rounded-lg ${result.probability >= 0.5 ? 'bg-red-100' : 'bg-green-100'}`}>
+                <TrendingUp className={`w-6 h-6 ${result.probability >= 0.5 ? 'text-health-red' : 'text-soft-green'}`} />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm text-gray-600 mb-1">Predicción del Modelo para este paciente</p>
+                <p className={`font-bold text-lg ${result.probability >= 0.5 ? 'text-health-red' : 'text-soft-green'}`}>
+                  {result.modelInfo.note}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Probabilidad calculada: <span className="font-semibold">{(result.probability * 100).toFixed(2)}%</span>
+                </p>
+              </div>
+              <div className="hidden sm:block text-right">
+                <div className="text-3xl font-bold" style={{ 
+                  color: result.probability >= 0.5 ? '#dc3545' : '#28a745' 
+                }}>
+                  {(result.probability * 100).toFixed(1)}%
+                </div>
+                <p className="text-xs text-gray-500">Confianza</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Leyenda de Métricas */}
+          <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+            <div className="bg-white bg-opacity-60 rounded-lg p-2">
+              <p className="font-semibold text-gray-700">📊 Accuracy:</p>
+              <p className="text-gray-600">Porcentaje de predicciones correctas</p>
+            </div>
+            <div className="bg-white bg-opacity-60 rounded-lg p-2">
+              <p className="font-semibold text-gray-700">🎯 Precision:</p>
+              <p className="text-gray-600">De los casos predichos positivos, % correctos</p>
+            </div>
+            <div className="bg-white bg-opacity-60 rounded-lg p-2">
+              <p className="font-semibold text-gray-700">⚡ Recall:</p>
+              <p className="text-gray-600">De todos los positivos reales, % detectados</p>
+            </div>
+            <div className="bg-white bg-opacity-60 rounded-lg p-2">
+              <p className="font-semibold text-gray-700">🏆 F1-Score:</p>
+              <p className="text-gray-600">Balance entre Precision y Recall</p>
+            </div>
+          </div>
+        </div>
+      )}
       
       {/* Disclaimer de resultados */}
       <div className="card p-4 bg-blue-50 border border-blue-200">
