@@ -38,9 +38,7 @@ function App() {
   // ========================================================================
   
   const calculateHeartRisk = (data) => {
-    console.log('\n🚀 ================== INICIO DE CÁLCULO ==================');
-    console.log('📥 Datos recibidos del formulario (RAW):', data);
-    
+
     // ✅ PARÁMETROS REALES DEL MODELO ENTRENADO (de ConexionData.ipynb)
     // Modelo: Logistic Regression con StandardScaler
     // Features: 13 características del dataset UCI Heart Disease
@@ -101,34 +99,9 @@ function App() {
       }
     };
     
-    console.log('\n⚙️ Parámetros del modelo:');
-    console.log('   Intercepto:', modelParams.intercept);
-    console.log('   Coeficientes:', modelParams.coefficients);
-    console.log('   Medias (scaler):', modelParams.scaler_mean);
-    console.log('   Escalas (scaler):', modelParams.scaler_scale);
-    
-    // 🔍 VALIDACIÓN CRÍTICA: Verificar si los parámetros están actualizados
-    const allCoefficientsZero = Object.values(modelParams.coefficients).every(c => c === 0.0);
-    const allMeansZero = Object.values(modelParams.scaler_mean).every(m => m === 0.0);
-    const allScalesOne = Object.values(modelParams.scaler_scale).every(s => s === 1.0);
-    
-    if (allCoefficientsZero || (allMeansZero && allScalesOne)) {
-      console.error('\n❌ ¡ERROR CRÍTICO DETECTADO!');
-      console.error('⚠️ Los parámetros del modelo NO han sido actualizados.');
-      console.error('⚠️ Todos los coeficientes son 0.0 y/o scaler_mean=0.0 y scaler_scale=1.0');
-      console.error('\n📋 SOLUCIÓN:');
-      console.error('   1. Ejecuta TODAS las celdas del notebook: ConexionData.ipynb');
-      console.error('   2. Busca la sección que dice: "📦 FORMATO JSON"');
-      console.error('   3. Copia TODO el JSON completo');
-      console.error('   4. Pega los valores en src/App.jsx línea ~45');
-      console.error('   5. Reemplaza TODOS los 0.0 y 1.0 con los valores reales');
-      console.error('\n💡 POR ESO SIEMPRE DA 50%: z=0 → sigmoid(0)=0.5=50%\n');
-    }
-    
     // ========================================================================
-    // PASO 1: Preparar los datos del formulario + VALIDACIÓN DE TIPOS
+    // PASO 1: Preparar los datos del formulario
     // ========================================================================
-    console.log('\n📋 PASO 1: Preparación de datos');
     
     // 🔒 FORZAR CONVERSIÓN A NÚMEROS (prevenir strings de formularios HTML)
     // Para características no capturadas por el formulario, usamos valores por defecto
@@ -149,78 +122,30 @@ function App() {
       thal: data.thal !== undefined ? Number(data.thal) : Math.round(modelParams.scaler_mean.thal)
     };
     
-    console.log('   Datos convertidos a números:', features);
-    
-    // 🔍 Verificar tipos de datos
-    console.log('\n🔍 Verificación de tipos:');
-    for (const [key, value] of Object.entries(features)) {
-      const type = typeof value;
-      const isValid = type === 'number' && !isNaN(value);
-      console.log(`   ${key}: ${value} (${type}) ${isValid ? '✅' : '❌ INVÁLIDO!'}`);      
-      if (!isValid) {
-        console.error(`   ⚠️ ERROR: ${key} no es un número válido!`);
-      }
-    }
-    
     // ========================================================================
     // PASO 2: NORMALIZACIÓN (StandardScaler)
     // Formula: normalized = (value - mean) / scale
     // ========================================================================
-    console.log('\n📊 PASO 2: Normalización (StandardScaler)');
-    
-    const normalizedFeatures = {};
     for (const [key, value] of Object.entries(features)) {
       if (modelParams.scaler_scale[key] !== undefined) {
         const mean = modelParams.scaler_mean[key];
         const scale = modelParams.scaler_scale[key];
         const normalized = (value - mean) / scale;
         normalizedFeatures[key] = normalized;
-        
-        console.log(`   ${key}:`);
-        console.log(`      Raw: ${value}`);
-        console.log(`      Mean: ${mean}`);
-        console.log(`      Scale: ${scale}`);
-        console.log(`      Fórmula: (${value} - ${mean}) / ${scale}`);
-        console.log(`      Normalizado: ${normalized.toFixed(6)}`);
       }
     }
-    
-    console.log('\n   📦 Features normalizados:', normalizedFeatures);
     
     // ========================================================================
     // PASO 3: CALCULAR SCORE LINEAL (z)
     // Formula: z = intercept + sum(coefficient_i * normalized_value_i)
     // ========================================================================
-    console.log('\n🔢 PASO 3: Cálculo del score lineal (z)');
-    console.log(`   Intercepto inicial: ${modelParams.intercept}`);
-    
     let z = modelParams.intercept;
-    console.log('\n   Contribuciones por característica:');
     
     for (const [key, normalizedValue] of Object.entries(normalizedFeatures)) {
       if (modelParams.coefficients[key] !== undefined) {
         const coefficient = modelParams.coefficients[key];
         const contribution = coefficient * normalizedValue;
         z += contribution;
-        
-        console.log(`   ${key}:`);
-        console.log(`      Coeficiente: ${coefficient.toFixed(6)}`);
-        console.log(`      Normalizado: ${normalizedValue.toFixed(6)}`);
-        console.log(`      Multiplicación: ${coefficient.toFixed(6)} × ${normalizedValue.toFixed(6)} = ${contribution.toFixed(6)}`);
-        console.log(`      z acumulado: ${z.toFixed(6)}`);
-      }
-    }
-    
-    console.log(`\n   📊 Score lineal FINAL (z): ${z}`);
-    
-    if (z === 0 || isNaN(z)) {
-      console.error('\n❌ PROBLEMA DETECTADO:');
-      console.error(`   z = ${z}`);
-      if (z === 0) {
-        console.error('   Si z=0, entonces sigmoid(0)=0.5, por eso siempre da 50%!');
-        console.error('   Causa probable: Todos los coeficientes son 0.0');
-      } else {
-        console.error('   z es NaN! Hay un problema con los cálculos matemáticos.');
       }
     }
     
@@ -229,26 +154,8 @@ function App() {
     // Formula: P = 1 / (1 + e^(-z))
     // Retorna probabilidad entre 0 y 1
     // ========================================================================
-    console.log('\n🎯 PASO 4: Aplicar función sigmoide');
-    
-    const expNegZ = Math.exp(-z);
-    const denominator = 1 + expNegZ;
-    const probability = 1 / denominator;
-    
-    console.log(`   Fórmula: P = 1 / (1 + e^(-z))`);
-    console.log(`   e^(-${z.toFixed(6)}) = ${expNegZ.toFixed(6)}`);
-    console.log(`   1 + e^(-z) = ${denominator.toFixed(6)}`);
-    console.log(`   P = 1 / ${denominator.toFixed(6)} = ${probability.toFixed(6)}`);
-    
-    // Convertir probabilidad a porcentaje (0-100)
-    let riskPercentage = probability * 100;
-    
-    console.log(`\n   ✨ Probabilidad FINAL: ${probability.toFixed(6)} (${riskPercentage.toFixed(2)}%)`);
-    
-    if (Math.abs(probability - 0.5) < 0.001) {
-      console.warn('\n⚠️ ADVERTENCIA: La probabilidad está muy cerca de 50%!');
-      console.warn('   Esto sugiere que z ≈ 0, revisa los parámetros del modelo.');
-    }
+    const probability = 1 / (1 + Math.exp(-z));
+    const riskPercentage = probability * 100;
     
     // ========================================================================
     // PASO 5: INTERPRETAR RESULTADOS

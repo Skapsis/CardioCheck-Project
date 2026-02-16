@@ -11,60 +11,6 @@ const HeartRiskForm = ({ onCalculate, onReset, hasResult }) => {
     fbs: false,
     thalach: 150
   });
-  
-  // 🧪 FUNCIÓN DE PRUEBA: Cargar caso de ALTO RIESGO automáticamente
-  const loadHighRiskCase = () => {
-    // Basado en las MEDIAS REALES del dataset para target=1 (CON enfermedad)
-    const highRiskData = {
-      age: 60,
-      sex: 'male',        // 1
-      cp: 2,              // Dolor torácico atípico (1-3 indica síntomas)
-      trestbps: 145,      // Presión arterial elevada
-      chol: 250,          // Colesterol alto
-      fbs: true,          // Glucosa alta (1)
-      restecg: 1,         // Anormalidad ECG
-      thalach: 160,       // Frecuencia cardíaca ALTA (target=1 tiene media 158)
-      exang: false,       // Sin angina por ejercicio (0)
-      oldpeak: 0.5,       // Depresión ST BAJA (target=1 tiene media 0.58)
-      slope: 1,           // Pendiente plana
-      ca: 0,              // Vasos coloreados BAJO (target=1 tiene media 0.36)
-      thal: 2             // Defecto reversible
-    };
-    
-    console.log('\n🧪 === CASO DE PRUEBA CARGADO: ALTO RIESGO ===');
-    console.log('Datos de prueba:', highRiskData);
-    console.log('✅ Basado en medias reales de target=1 (CON enfermedad)');
-    console.log('Debería dar >50% de probabilidad de enfermedad.');
-    
-    setFormData(highRiskData);
-  };
-  
-  // 🧪 FUNCIÓN DE PRUEBA: Cargar caso de BAJO RIESGO automáticamente
-  const loadLowRiskCase = () => {
-    // Basado en las MEDIAS REALES del dataset para target=0 (SIN enfermedad)
-    const lowRiskData = {
-      age: 50,
-      sex: 'male',        // 1
-      cp: 0,              // ASINTOMÁTICO (sin dolor torácico)
-      trestbps: 125,      // Presión normal
-      chol: 210,          // Colesterol normal
-      fbs: false,         // Glucosa normal (0)
-      restecg: 0,         // ECG normal
-      thalach: 135,       // Frecuencia cardíaca BAJA (target=0 tiene media 139)
-      exang: false,       // Sin angina por ejercicio (0)
-      oldpeak: 1.8,       // Depresión ST ALTA (target=0 tiene media 1.59)
-      slope: 1,           // Pendiente plana
-      ca: 1,              // Vasos coloreados ALTO (target=0 tiene media 1.17)
-      thal: 2             // Normal
-    };
-    
-    console.log('\n🧪 === CASO DE PRUEBA CARGADO: BAJO RIESGO ===');
-    console.log('Datos de prueba:', lowRiskData);
-    console.log('✅ Basado en medias reales de target=0 (SIN enfermedad)');
-    console.log('Debería dar <50% de probabilidad de enfermedad.');
-    
-    setFormData(lowRiskData);
-  };
 
   const [errors, setErrors] = useState({});
 
@@ -296,33 +242,6 @@ const HeartRiskForm = ({ onCalculate, onReset, hasResult }) => {
           </div>
         </div>
         {errors.thalach && <p className="text-xs text-health-red mt-1">{errors.thalach}</p>}
-      </div>
-
-      {/* Botones de Prueba - DEBUG MODE */}
-      <div className="bg-yellow-50 border-2 border-yellow-400 rounded-xl p-4 mb-4">
-        <p className="text-xs font-bold text-yellow-800 mb-2 flex items-center gap-2">
-          <Activity className="w-4 h-4" />
-          🧪 MODO DEBUG: Casos de Prueba Rápida
-        </p>
-        <div className="grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={loadHighRiskCase}
-            className="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-xs font-semibold transition-all"
-          >
-            ⚠️ Cargar Alto Riesgo
-          </button>
-          <button
-            type="button"
-            onClick={loadLowRiskCase}
-            className="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg text-xs font-semibold transition-all"
-          >
-            ✅ Cargar Bajo Riesgo
-          </button>
-        </div>
-        <p className="text-xs text-yellow-700 mt-2">
-          💡 Usa estos botones para probar con datos conocidos. Abre la consola (F12) para ver el diagnóstico completo.
-        </p>
       </div>
       
       {/* Botones Principales */}
