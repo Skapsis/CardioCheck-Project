@@ -1,4 +1,4 @@
-# 💙 CardioCheck - Evaluación de Riesgo Cardiovascular
+# CardioCheck - Cardiovascular Risk Assessment Platform
 
 ![React](https://img.shields.io/badge/React-18.2-61DAFB?logo=react)
 ![Python](https://img.shields.io/badge/Python-3.13-3776AB?logo=python)
@@ -10,7 +10,7 @@ Plataforma completa para evaluación y predicción de riesgo de enfermedades car
 
 ---
 
-## 🎯 Descripción
+## Descripción
 
 **CardioCheck** es una herramienta educativa integral que combina:
 
@@ -21,25 +21,25 @@ El proyecto demuestra el flujo completo desde el análisis de datos hasta la imp
 
 ---
 
-## ✨ Características Principales
+## Características Principales
 
-### 🧬 Análisis de Machine Learning
-- ✅ Modelo de Regresión Logística optimizado (Accuracy: 80.3%)
-- ✅ Validación cruzada 5-fold (83.09% ± 4.09%)
-- ✅ Visualizaciones profesionales (Matriz de confusión, Curva ROC, etc.)
-- ✅ Análisis de importancia de características
+### Análisis de Machine Learning
+- Modelo de Regresión Logística optimizado (Accuracy: 80.3%)
+- Validación cruzada 5-fold (83.09% ± 4.09%)
+- Visualizaciones profesionales (Matriz de confusión, Curva ROC, etc.)
+- Análisis de importancia de características
 
-### 💻 Aplicación Web
-- ✅ Interfaz moderna con diseño HealthTech profesional
-- ✅ Formulario interactivo con 7 parámetros clínicos
-- ✅ Algoritmo de scoring basado en investigación médica
-- ✅ Visualización de resultados con progreso circular animado
-- ✅ Recomendaciones personalizadas según nivel de riesgo
-- ✅ Completamente responsivo (móvil, tablet, desktop)
+### Aplicación Web
+- Interfaz moderna con diseño HealthTech profesional
+- Formulario interactivo con 7 parámetros clínicos
+- Algoritmo de scoring basado en investigación médica
+- Visualización de resultados con progreso circular animado
+- Recomendaciones personalizadas según nivel de riesgo
+- Completamente responsivo (móvil, tablet, desktop)
 
 ---
 
-## 🚀 Inicio Rápido
+## Inicio Rápido
 
 ### Instalación
 
@@ -69,7 +69,7 @@ jupyter notebook ConexionData.ipynb
 
 ---
 
-## 📊 Resultados del Modelo
+## Resultados del Modelo
 
 | Métrica | Valor |
 |---------|-------|
@@ -89,7 +89,7 @@ jupyter notebook ConexionData.ipynb
 
 ---
 
-## 🛠️ Tecnologías
+## Tecnologías
 
 **Frontend:** React 18 • Tailwind CSS 3.3 • Vite 5.0 • Lucide React
 
@@ -97,7 +97,7 @@ jupyter notebook ConexionData.ipynb
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```
 CardioCheck-Project/
@@ -115,7 +115,7 @@ CardioCheck-Project/
 
 ---
 
-## 💡 Uso
+## Uso
 
 ### Aplicación Web
 1. Abre http://localhost:3000
@@ -135,7 +135,7 @@ CardioCheck-Project/
 
 ---
 
-## 📊 Dataset
+## Dataset
 
 **UCI Machine Learning Repository - Heart Disease Dataset**
 - **Fuente:** Cleveland Clinic Foundation
@@ -145,20 +145,20 @@ CardioCheck-Project/
 
 ---
 
-## ⚠️ Disclaimer Importante
+## Disclaimer Importante
 
 **Esta herramienta es EXCLUSIVAMENTE para fines educativos.**
 
-- ❌ NO sustituye un diagnóstico médico profesional
-- ❌ NO debe usarse para decisiones de tratamiento
-- ❌ Los resultados son estimaciones educativas
-- ✅ Consulta siempre con un médico especialista
+- NO sustituye un diagnóstico médico profesional
+- NO debe usarse para decisiones de tratamiento
+- Los resultados son estimaciones educativas
+- Consulta siempre con un médico especialista
 
 ---
 
-## 🤝 Contribuir
+## Contribuir
 
-¡Las contribuciones son bienvenidas!
+Las contribuciones son bienvenidas.
 
 1. Fork el proyecto
 2. Crea tu rama feature (`git checkout -b feature/AmazingFeature`)
@@ -168,13 +168,13 @@ CardioCheck-Project/
 
 ---
 
-## 📄 Licencia
+## Licencia
 
 Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detalles.
 
 ---
 
-## 🔗 Enlaces Útiles
+## Enlaces Útiles
 
 - [React Documentation](https://react.dev/)
 - [Tailwind CSS](https://tailwindcss.com/)
@@ -183,7 +183,7 @@ Este proyecto está bajo la Licencia MIT. Ver [LICENSE](LICENSE) para más detal
 
 ---
 
-## 📞 Contacto
+## Contacto
 
 Si tienes preguntas o sugerencias, abre un [issue](https://github.com/TU_USUARIO/CardioCheck-Project/issues).
 
@@ -191,9 +191,9 @@ Si tienes preguntas o sugerencias, abre un [issue](https://github.com/TU_USUARIO
 
 <div align="center">
 
-**⭐ Si este proyecto te fue útil, considera darle una estrella ⭐**
+**Si este proyecto te fue útil, considera darle una estrella en GitHub**
 
-**Desarrollado con ❤️ para educación y aprendizaje**
+**Desarrollado para educación y aprendizaje**
 
 © 2026 CardioCheck - Cardiovascular Risk Assessment Platform
 
