@@ -8,10 +8,12 @@
 [![Vite](https://img.shields.io/badge/Vite-5.0-646CFF?logo=vite)](https://vitejs.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.3-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
 [![React Native](https://img.shields.io/badge/React%20Native-0.73-61DAFB?logo=react)](https://reactnative.dev/)
-[![Expo](https://img.shields.io/badge/Expo-50-000020?logo=expo)](https://expo.dev/)
+[![Expo](https://img.shields.io/badge/Expo-54-000020?logo=expo)](https://expo.dev/)
+[![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python)](https://python.org/)
+[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-ML-F7931E?logo=scikit-learn)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](./LICENSE)
 
-[Características](#-características) • [Demo](#-demo) • [Instalación](#-instalación) • [Despliegue](#-despliegue) • [Tecnologías](#-tech-stack)
+[🚀 Demo Live](https://cardiocheck.netlify.app) • [📱 Móvil](#-instalación-móvil) • [🧠 Modelo ML](#-cómo-funciona-el-modelo) • [📚 Instalación](#-instalación)
 
 </div>
 
@@ -19,36 +21,99 @@
 
 ## 📋 Descripción
 
-**CardioCheck** es una aplicación web y móvil que evalúa el riesgo de enfermedad cardiovascular utilizando un modelo de **Regresión Logística** entrenado con el dataset [UCI Heart Disease (Cleveland)](https://archive.ics.uci.edu/ml/datasets/heart+disease). 
+**CardioCheck** es una aplicación **web y móvil** que evalúa el riesgo de enfermedad cardiovascular utilizando un modelo de **Regresión Logística** entrenado con el dataset [UCI Heart Disease (Cleveland)](https://archive.ics.uci.edu/ml/datasets/heart+disease). 
 
-El modelo alcanza una precisión del **80.3%** y utiliza 13 características clínicas para predecir la probabilidad de enfermedad cardíaca, proporcionando recomendaciones personalizadas según el nivel de riesgo.
+### 🎯 **Características Principales**
+- 🧠 **Modelo ML Real**: Precisión del **80.3%** con StandardScaler
+- ⚡ **Evaluación Instantánea**: Cálculo en tiempo real
+- 🌐 **Multiplataforma**: Web (React) + Móvil (React Native)
+---
 
-> ⚠️ **Importante**: Esta herramienta es **únicamente educativa** y no reemplaza el diagnóstico médico profesional.
+## 📊 **Métricas del Modelo ML**
+
+| Métrica | Valor | Descripción |
+|---------|-------|-------------|
+| **Accuracy** | **80.3%** | Precisión general del modelo |
+| **Precision** | **76.9%** | Exactitud de predicciones positivas |
+| **Recall** | **90.9%** | Capacidad de detectar casos positivos |
+| **F1-Score** | **83.3%** | Promedio harmónico de Precision y Recall |
+| **AUC-ROC** | **86.9%** | Área bajo la curva ROC |
+| **CV Score** | **83.1%** | Validación cruzada |
 
 ---
 
-## ✨ Características
+## 🏗️ **Estructura del Proyecto**
 
-### 🎯 Funcionalidades Principales
+```
+CardioCheck-Project/
+├── 🌐 WEB VERSION (React + Vite)
+│   ├── src/
+│   │   ├── App.jsx                 # Aplicación principal web
+│   │   ├── components/
+│   │   │   ├── Header.jsx          # Encabezado
+│   │   │   ├── HeartRiskForm.jsx   # Formulario de evaluación
+│   │   │   ├── ResultDisplay.jsx   # Visualización de resultados
+│   │   │   └── Disclaimer.jsx      # Aviso legal
+│   │   └── index.css              # Estilos Tailwind
+│   ├── index.html
+│   ├── package.json
+│   └── vite.config.js
+│
+├── 📱 MOBILE VERSION (React Native + Expo)
+│   ├── mobile/
+│   │   ├── App.js                 # Aplicación móvil completa
+│   │   ├── app.json              # Configuración Expo
+│   │   ├── package.json          # Dependencias móvil
+│   │   └── README.md             # Documentación móvil
+│
+├── 🧠 MACHINE LEARNING
+│   ├── ConexionData.ipynb        # Notebook entrenamiento del modelo
+│   ├── heart-disease.csv         # Dataset UCI Cleveland
+│   └── docs/                     # Documentación técnica
+│
+├── 📚 DOCUMENTACIÓN
+│   ├── README.md                 # Este archivo
+│   ├── LICENSE                   # Licencia MIT
+│   └── GUIA_*.md                # Guías técnicas
+└── .gitignore
+```
 
-- ✅ **Modelo ML Real**: Regresión Logística con StandardScaler entrenado en Python/scikit-learn
-- ✅ **Evaluación Instantánea**: Cálculo de probabilidad de riesgo cardiovascular en tiempo real
-- ✅ **Interfaz Intuitiva**: Formulario interactivo con validación de datos
-- ✅ **Recomendaciones Personalizadas**: Consejos según el nivel de riesgo (bajo, moderado, alto)
-- ✅ **Dashboard del Modelo**: Visualización de métricas (Accuracy, Precision, Recall, F1-Score, AUC-ROC, CV Score)
-- ✅ **Responsive Design**: Compatible con desktop, tablet y móviles
-- ✅ **Aplicación Móvil**: Versión nativa con React Native + Expo
+---
 
-### 📊 Métricas del Modelo
+## 🧠 **Cómo Funciona el Modelo**
 
-| Métrica | Valor |
-|---------|-------|
-| **Accuracy** | 80.3% |
-| **Precision** | 76.9% |
-| **Recall** | 90.9% |
-| **F1-Score** | 83.3% |
-| **AUC-ROC** | 86.9% |
-| **CV Score** | 83.1% |
+CardioCheck utiliza **Regresión Logística** con **StandardScaler** para normalización:
+
+### **Proceso Matemático**
+
+#### **1️⃣ Normalización (StandardScaler)**
+```javascript
+normalized_value = (valor_crudo - media) / desviación_estándar
+```
+
+#### **2️⃣ Cálculo del Score Lineal (z)**  
+```javascript
+z = intercepto + Σ(coeficiente_i × valor_normalizado_i)
+```
+
+#### **3️⃣ Función Sigmoide**
+```javascript
+P = 1 / (1 + e^(-z))
+```
+
+#### **4️⃣ Interpretación**
+- **P < 30%** → 🟢 Riesgo Bajo
+- **30% ≤ P < 70%** → 🟡 Riesgo Moderado  
+- **P ≥ 70%** → 🔴 Riesgo Alto
+
+### **📋 Características Clínicas (7 principales)**
+1. **Edad** (29-77 años)
+2. **Sexo** (Masculino/Femenino) 
+3. **Tipo de Dolor Torácico** (4 categorías)
+4. **Presión Sistólica** (94-200 mmHg)
+5. **Colesterol** (126-564 mg/dl)
+6. **Glucemia en Ayunas** (>120 mg/dl: Sí/No)
+7. **Frecuencia Cardíaca Máxima** (71-202 bpm)
 
 ---
 

@@ -1,246 +1,261 @@
 # 📱 CardioCheck Mobile - React Native + Expo
 
-Versión móvil nativa de CardioCheck para iOS y Android.
+**Aplicación móvil nativa para evaluación de riesgo cardiovascular**
+
+[![React Native](https://img.shields.io/badge/React%20Native-0.73-61DAFB?logo=react)](https://reactnative.dev/)
+[![Expo](https://img.shields.io/badge/Expo-50-000020?logo=expo)](https://expo.dev/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript)](https://javascript.info/)
 
 ---
 
-## 🚀 Inicio Rápido
+## 📋 **Descripción**
 
-### Prerrequisitos
+Versión móvil nativa de CardioCheck que utiliza el **mismo modelo de Machine Learning** que la versión web. Desarrollada con React Native y Expo para máxima compatibilidad cross-platform.
 
-- **Node.js** 18+ instalado
-- **npm** o **yarn**
-- **Expo Go** app en tu teléfono:
-  - iOS: [Descargar de App Store](https://apps.apple.com/app/expo-go/id982107779)
-  - Android: [Descargar de Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent)
+### ✨ **Características**
+- 📱 **Nativo iOS/Android** con Expo
+- 🧠 **Modelo ML Integrado** (sin backend)
+- ⚡ **Evaluación Offline** instantánea  
+- 🎨 **UI HealthTech** profesional
+- 📊 **Resultados Visuales** con animaciones
+- 🔒 **Sin datos enviados** (privacidad total)
 
-### Instalación
+---
 
+## 🚀 **Instalación & Uso**
+
+### **📋 Prerequisitos**
 ```bash
-# Navegar a la carpeta mobile
-cd mobile
+# Verificar Node.js
+node --version  # Requiere v18+
 
-# Instalar dependencias
-npm install
-# o
-yarn install
+# Instalar Expo CLI globalmente (opcional)
+npm install -g @expo/cli
 ```
 
-### Ejecutar la App
-
+### **📥 Instalación**
 ```bash
-# Iniciar Expo
-npm start
-# o
+# Navegar a carpeta mobile
+cd mobile
+
+# Instalar dependencias  
+npm install
+
+# Ejecutar aplicación
 npx expo start
 ```
 
-Esto abrirá **Expo Dev Tools** en tu navegador y mostrará un **código QR**.
+### **📲 Opciones de Ejecución**
 
-### Probar en tu Dispositivo
+#### **🔗 Con Expo Go (Recomendado)**
+1. Instala **Expo Go** desde la App Store/Play Store
+2. Ejecuta `npx expo start`
+3. Escanea el **QR code** con tu cámara
+4. ¡La app se abrirá automáticamente!
 
-1. **iOS**: Abre la app **Camera** y escanea el código QR
-2. **Android**: Abre la app **Expo Go** y escanea el código QR
+#### **📱 En Emulador** 
+```bash
+# Android Studio
+npx expo start --android
 
-La app se cargará en tu teléfono en segundos. ✨
+# Xcode Simulator (solo macOS)
+npx expo start --ios
+```
 
----
-
-## 📱 Características
-
-- ✅ **100% Nativo**: Usa componentes nativos de React Native
-- ✅ **Mismo Modelo ML**: Idéntica lógica matemática que la versión web
-- ✅ **Offline-First**: No requiere conexión a internet
-- ✅ **Validación en Tiempo Real**: Verifica los datos antes de calcular
-- ✅ **UI Optimizada para Móvil**: Diseño touch-friendly
-- ✅ **Soporte iOS y Android**: Una sola codebase
-- ✅ **Disclaimer Educativo**: Aviso médico al inicio
-
----
-
-## 🎨 Componentes Nativos Utilizados
-
-- `<SafeAreaView>`: Respeta las áreas seguras (notch, bordes redondeados)
-- `<ScrollView>`: Scroll nativo suave
-- `<TextInput>`: Inputs nativos con teclado apropiado
-- `<TouchableOpacity>`: Botones con feedback táctil
-- `<Switch>`: Toggle nativo del sistema
-- `<StatusBar>`: Barra de estado personalizada
-
----
-
-## 📊 Estructura de la App
-
-```javascript
-App.js
-├── MODEL_PARAMS           // Coeficientes del modelo ML
-├── calculateHeartRisk()   // Función de regresión logística
-├── Main Component
-│   ├── Disclaimer Screen  // Pantalla de aviso inicial
-│   ├── Form Screen        // Formulario de datos clínicos
-│   └── Results Screen     // Resultados y recomendaciones
-└── Styles                 // StyleSheet de React Native
+#### **🌐 Desarrollo con Túnel**
+```bash
+# Para compartir con dispositivos remotos
+npx expo start --tunnel
 ```
 
 ---
 
-## 🧮 Lógica del Modelo
+## 🏗️ **Arquitectura de la App**
+
+### **📂 Estructura del Código**
+```javascript
+App.js
+├── 🧠 MODEL_PARAMS           // Constantes del modelo ML
+├── 🧮 calculateHeartRisk()  // Función de cálculo
+├── 📱 App Component          // Componente principal
+├── 🎨 StyleSheet            // Estilos nativos
+└── ⚡ Estados & Lógica      // Gestión de formulario
+```
+
+### **🔧 Componentes Nativos Utilizados**
+- `SafeAreaView` - Área segura multiplataforma
+- `ScrollView` - Scroll nativo optimizado
+- `TextInput` - Inputs nativos con teclado numérico
+- `TouchableOpacity` - Botones con feedback táctil
+- `Alert` - Alertas nativas del sistema
+
+---
+
+## 🧮 **Lógica del Modelo**
 
 La app móvil implementa **exactamente el mismo modelo** que la versión web:
 
-### Paso 1: Normalización (StandardScaler)
+### **Constantes Integradas**
 ```javascript
-normalized = (value - mean) / scale
+const MODEL_PARAMS = {
+  intercept: 0.13159523820583108,
+  coefficients: { /* 13 coeficientes */ },  
+  scaler_mean: { /* medias para normalización */ },
+  scaler_scale: { /* escalas para normalización */ }
+};
 ```
 
-### Paso 2: Score Lineal
+### **Proceso de Cálculo**
+1. **Input** → Formulario nativo
+2. **Validación** → Rangos clínicos  
+3. **Normalización** → StandardScaler
+4. **Score Lineal** → z = intercept + Σ(coef × norm_value)
+5. **Sigmoide** → P = 1/(1 + e^(-z))
+6. **Output** → Porcentaje + Nivel de riesgo
+
+---
+
+## 🎨 **Diseño & UX**
+
+### **🎯 Principios de Diseño**
+- **HealthTech**: Colores clínicos (azul #007bff)
+- **Accesibilidad**: Textos legibles y contrastes apropiados  
+- **Simplicidad**: Solo campos esenciales para el cálculo
+- **Feedback**: Animaciones suaves y alertas claras
+
+### **📊 Paleta de Colores**
 ```javascript
-z = intercept + Σ(coefficient_i × normalized_i)
-```
+// Principales
+Primary Blue:    #007bff   // Botones y encabezados
+Success Green:   #28a745   // Riesgo bajo
+Warning Orange:  #fd7e14   // Riesgo moderado  
+Danger Red:      #dc3545   // Riesgo alto
 
-### Paso 3: Función Sigmoide
-```javascript
-P = 1 / (1 + e^(-z))
-```
-
-**Resultado**: Probabilidad de 0% a 100%
-
----
-
-## 🛠 Desarrollo
-
-### Scripts Disponibles
-
-```bash
-npm start          # Inicia Expo Dev Server
-npm run android    # Abre en emulador Android
-npm run ios        # Abre en simulador iOS
-npm run web        # Abre en navegador web
-```
-
-### Estructura de Archivos
-
-```
-mobile/
-├── App.js           # Aplicación principal
-├── package.json     # Dependencias
-├── app.json         # Configuración de Expo
-└── assets/          # Imágenes, íconos (crear si necesario)
+// Neutros  
+Background:      #f8f9fa   // Fondo general
+Card White:      #ffffff   // Tarjetas y formularios
+Text Dark:       #343a40   // Texto principal
+Text Light:      #6c757d   // Texto secundario
 ```
 
 ---
 
-## 🎨 Paleta de Colores
-
-Mantiene la identidad visual de CardioCheck:
-
-| Color | Hex | Uso |
-|-------|------|-----|
-| **Primary Blue** | `#3B82F6` | Header, botones principales |
-| **Light Blue** | `#DBEAFE` | Backgrounds, info boxes |
-| **Red** | `#DC2626` | Riesgo muy alto |
-| **Orange** | `#F59E0B` | Riesgo alto |
-| **Yellow** | `#FCD34D` | Riesgo moderado |
-| **Green** | `#10B981` | Riesgo bajo |
-| **Gray** | `#F8FAFC` | Fondo general |
-| **Dark Gray** | `#1F2937` | Textos |
-
----
-
-## 📦 Build para Producción
-
-### Build para Android
+## 🔧 **Scripts Disponibles**
 
 ```bash
-# Build APK
-npx expo build:android
+# Desarrollo
+npm start              # Alias de expo start
+npx expo start         # Iniciar servidor de desarrollo
+npx expo start --clear # Limpiar caché y reiniciar
 
-# O usar EAS Build (recomendado)
-npm install -g eas-cli
-eas build --platform android
-```
+# Builds
+npx expo prebuild      # Generar carpetas nativas
+npx expo run:ios       # Build y run iOS 
+npx expo run:android   # Build y run Android
 
-### Build para iOS
-
-```bash
-# Requiere cuenta de Apple Developer
-eas build --platform ios
+# EAS Build (producción)
+npx eas build --platform ios     # Build iOS
+npx eas build --platform android # Build Android
 ```
 
 ---
 
-## 🧪 Testing
+## 📦 **Dependencias**
 
-### Probar en Emuladores
-
-**Android Studio Emulator**:
-```bash
-npm run android
+### **Principales**
+```json
+{
+  "expo": "^50.0.17",
+  "react": "18.2.0", 
+  "react-native": "0.73.6"
+}
 ```
 
-**iOS Simulator** (solo macOS):
-```bash
-npm run ios
+### **Iconos (Opcional)**
+```json
+{
+  "@expo/vector-icons": "^13.0.0"  // Para íconos adicionales
+}
 ```
-
-### Casos de Prueba
-
-La app incluye validación automática:
-- ✅ Edad: 1-120 años
-- ✅ Presión arterial: 80-220 mm Hg
-- ✅ Colesterol: 100-600 mg/dl
-- ✅ Frecuencia cardíaca: 60-220 bpm
 
 ---
 
-## 🐛Troubleshooting
+## 🐛 **Troubleshooting**
 
-### Error: "Metro bundler not starting"
+### **❌ Problemas Comunes**
+
+#### **"Metro bundler has encountered an error"**
 ```bash
-npx expo start -c  # Clear cache
+# Limpiar caché Metro
+npx expo start --clear
+# O manualmente:
+npx expo r -c
 ```
 
-### Error: "Unable to resolve module"
+#### **"Network response timed out"**  
 ```bash
+# Usar túnel si hay problemas de red
+npx expo start --tunnel
+```
+
+#### **"Unable to resolve module"**
+```bash
+# Reinstalar dependencias
 rm -rf node_modules
 npm install
 ```
 
-### Error: QR code no funciona
-- Asegúrate de estar en la misma red WiFi
-- Intenta la opción "Tunnel" en Expo Dev Tools
+#### **Red Screen con errores de sintaxis**
+- Verificar que no haya imports de librerías web (lucide-react, etc.)
+- Asegurar que solo se usen componentes de react-native 
+- Revisar que no haya elementos HTML (`<div>`, `<button>`)
 
 ---
 
-## 📚 Recursos
+## 🚀 **Deploy & Distribución**
 
-- [React Native Docs](https://reactnative.dev/)
-- [Expo Documentation](https://docs.expo.dev/)
-- [StyleSheet API](https://reactnative.dev/docs/stylesheet)
-- [React Native Components](https://reactnative.dev/docs/components-and-apis)
+### **📲 Para Testing (Expo Go)**
+```bash
+# Generar QR para compartir
+npx expo start --tunnel
+# Compartir el enlace exp:// generado
+```
+
+### **🏪 Para App Stores**
+```bash
+# Configurar EAS
+npm install -g eas-cli
+eas login
+
+# Build para stores 
+eas build --platform all
+eas submit --platform ios
+eas submit --platform android
+```
 
 ---
 
-## ⚠️ Nota Importante
+## 📚 **Recursos Adicionales**
 
-Esta aplicación es **exclusivamente educativa**:
-- ❌ NO para uso clínico real
-- ❌ NO sustituye diagnóstico médico
-- ✅ Para aprendizaje de ML en móvil
-- ✅ Para demostración de React Native
+- 📖 **[Documentación Expo](https://docs.expo.dev/)**
+- 📘 **[React Native Docs](https://reactnative.dev/docs/getting-started)**
+- 🎓 **[Expo University](https://expo.dev/university)**  
+- 💬 **[Expo Discord](https://chat.expo.dev/)**
 
 ---
 
-## 📄 Licencia
+## ⚖️ **Licencia & Disclaimer**
 
-MIT License - Ver archivo LICENSE en la raíz del proyecto
+- **Licencia**: MIT (ver [LICENSE](../LICENSE))
+- **Uso**: Solo fines educativos
+- **Disclaimer**: No sustituye diagnóstico médico profesional
 
 ---
 
 <div align="center">
 
-**Desarrollado con ❤️ usando React Native + Expo**
+**📱 Desarrollado con ❤️ para la salud cardiovascular móvil**
 
-[⬆ Volver al README Principal](../README.md)
+[⬆️ Volver al proyecto principal](../README.md)
 
 </div>
