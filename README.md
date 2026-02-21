@@ -121,16 +121,21 @@ P = 1 / (1 + e^(-z))
 
 ### 💻 Aplicación Web
 
-![Dashboard Web](docs/screenshots/web-dashboard.png)
-*Interfaz principal con formulario de evaluación y resultados en tiempo real*
+**1. Aviso de Uso Educativo**
+![Aviso Educativo](screenshots/1-aviso.png)
 
-![Resultado de Riesgo](docs/screenshots/result-demo.png)
-*Dashboard con análisis detallado, recomendaciones y métricas del modelo*
+**2. Formulario de Evaluación (Vacío)**
+![Dashboard Web](screenshots/2-formulario.png)
+
+**3. Evaluación y Resultado**
+![Resultado Moderado](screenshots/3-resultado.png)
+
+**4. Panel de Métricas del Modelo**
+![Métricas y Dashboard](screenshots/4-metricas.png)
 
 ### 📱 Aplicación Móvil
 
-![App Móvil](docs/screenshots/mobile-app.png)
-*Versión móvil nativa con React Native y Expo*
+*(En desarrollo)*
 
 ---
 
@@ -385,11 +390,11 @@ CardioCheck-Project/
 │   ├── app.json                 # Configuración Expo
 │   ├── package.json             # Dependencias móvil
 │   └── README.md                # Documentación móvil
-├── docs/
-│   └── screenshots/             # Capturas de pantalla
-│       ├── web-dashboard.png
-│       ├── result-demo.png
-│       └── mobile-app.png
+├── screenshots/                 # Capturas de pantalla
+│   ├── 1-aviso.png
+│   ├── 2-formulario.png
+│   ├── 3-resultado.png
+│   └── 4-metricas.png
 ├── ConexionData.ipynb           # Notebook de entrenamiento
 ├── heart-disease.csv            # Dataset UCI
 ├── README.md                    # Este archivo
