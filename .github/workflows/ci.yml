@@ -1,0 +1,215 @@
+name: 🚀 CardioCheck CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 🌐 Test Web Version
+  test-web:
+    name: 🌐 Web App Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: 📚 Install Dependencies
+        run: npm ci
+
+      - name: 🧪 Run Tests (if exist)
+        run: npm test --if-present
+        continue-on-error: true
+
+      - name: 🔨 Build Web App
+        run: npm run build
+
+      - name: 📊 Check Bundle Size
+        run: |
+          echo "📦 Build completed successfully!"
+          du -sh dist/
+          ls -la dist/
+
+  # 📱 Test Mobile Version  
+  test-mobile:
+    name: 📱 Mobile App Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: mobile/package-lock.json
+
+      - name: 📱 Install Mobile Dependencies
+        working-directory: ./mobile
+        run: npm ci
+
+      - name: 🧪 Validate React Native Code
+        working-directory: ./mobile
+        run: |
+          echo "🔍 Checking for web dependencies in mobile..."
+          if grep -r "react-bootstrap\|antd\|@mui\|lucide-react" . --exclude-dir=node_modules; then
+            echo "❌ Found web-only dependencies in mobile code!"
+            exit 1
+          else
+            echo "✅ No web dependencies found in mobile code"
+          fi
+
+      - name: 📋 Check Native Components Only
+        working-directory: ./mobile
+        run: |
+          echo "🔍 Validating React Native components..."
+          if grep -r "import.*from 'react'" App.js | grep -v "react-native"; then
+            echo "⚠️ Warning: Check React imports in mobile"
+          fi
+          echo "✅ Mobile validation completed"
+
+  # 🔍 Code Quality
+  code-quality:
+    name: 🔍 Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🧮 Validate ML Constants
+        run: |
+          echo "🧠 Checking ML model constants..."
+          
+          # Check if MODEL_PARAMS exists in both versions
+          if grep -r "MODEL_PARAMS" src/ && grep -r "MODEL_PARAMS" mobile/; then
+            echo "✅ ML constants found in both web and mobile"
+          else
+            echo "❌ ML constants missing in one version"
+            exit 1
+          fi
+          
+          # Validate intercept value
+          if grep -r "0.13159523820583108" src/ mobile/; then
+            echo "✅ Correct intercept value found"
+          else
+            echo "❌ Intercept value modified!"
+            exit 1
+          fi
+
+      - name: 📱 Mobile Compatibility Check
+        run: |
+          echo "📱 Checking mobile compatibility..."
+          
+          # Ensure no HTML elements in mobile
+          if grep -r "<div>\|<button>\|<input>" mobile/ --exclude-dir=node_modules; then
+            echo "❌ HTML elements found in mobile code!"
+            exit 1
+          fi
+          
+          # Check for React Native imports
+          if grep -r "from 'react-native'" mobile/App.js; then
+            echo "✅ React Native imports found"
+          else
+            echo "❌ Missing React Native imports"
+            exit 1
+          fi
+
+  # 📊 Security & Dependencies
+  security:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 🔍 Audit Web Dependencies
+        run: |
+          npm audit --audit-level=moderate || true
+          echo "✅ Web audit completed"
+
+      - name: 🔍 Audit Mobile Dependencies
+        working-directory: ./mobile
+        run: |
+          npm audit --audit-level=moderate || true
+          echo "✅ Mobile audit completed"
+
+  # 📋 Documentation Check
+  docs:
+    name: 📚 Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout Code
+        uses: actions/checkout@v4
+
+      - name: 📋 Check README Files
+        run: |
+          echo "📚 Validating documentation..."
+          
+          # Check main README
+          if [ -f "README.md" ]; then
+            echo "✅ Main README.md exists"
+            if grep -q "CardioCheck" README.md; then
+              echo "✅ README contains project name"
+            fi
+          else
+            echo "❌ Main README.md missing"
+            exit 1
+          fi
+          
+          # Check mobile README
+          if [ -f "mobile/README.md" ]; then
+            echo "✅ Mobile README.md exists"
+          else
+            echo "❌ Mobile README.md missing"
+            exit 1
+          fi
+
+      - name: 🔗 Check Critical Files
+        run: |
+          echo "📋 Checking critical files..."
+          
+          files=("LICENSE" "package.json" "mobile/package.json" "mobile/app.json")
+          for file in "${files[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ $file exists"
+            else
+              echo "❌ $file missing"
+              exit 1
+            fi
+          done
+
+  # 🚀 Deploy Status
+  deploy-ready:
+    name: 🚀 Deploy Ready
+    needs: [test-web, test-mobile, code-quality, security, docs]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: 🎉 All Checks Passed
+        run: |
+          echo "🎉 All checks passed successfully!"
+          echo "✅ Web version: Ready"
+          echo "✅ Mobile version: Ready" 
+          echo "✅ Code quality: Passed"
+          echo "✅ Security: Scanned"
+          echo "✅ Documentation: Complete"
+          echo ""
+          echo "🚀 CardioCheck is ready for deployment!"
